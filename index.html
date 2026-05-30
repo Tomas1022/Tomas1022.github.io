@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tomas Herrera · Full Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { transition: background 0.3s, color 0.3s; -webkit-font-smoothing: antialiased; }
+    body.light {
+      --bg: #f8f7f4; --ink: #141414; --ink2: #444; --ink3: #888;
+      --accent: #1a56db; --accent-light: #e8efff;
+      --border: rgba(0,0,0,0.08); --card: #fff; --nav-bg: rgba(248,247,244,0.92);
+    }
+    body.dark {
+      --bg: #0f0f10; --ink: #f0f0ee; --ink2: #aaa; --ink3: #666;
+      --accent: #5b8dee; --accent-light: #1a2340;
+      --border: rgba(255,255,255,0.08); --card: #1a1a1e; --nav-bg: rgba(15,15,16,0.92);
+    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Geist', sans-serif; font-weight: 400; line-height: 1.6; }
+    ::selection { background: var(--accent); color: #fff; }
+    a { color: inherit; text-decoration: none; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(28px) } to { opacity:1; transform:translateY(0) } }
+  </style>
+</head>
+<body class="light">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const T = {
+      en: {
+        role: "FULL STACK DEVELOPER · BOGOTÁ, COLOMBIA",
+        summary: "Junior Full Stack Developer with real production experience — building and shipping web apps from database to UI using React, Node.js, Python, and MySQL.",
+        cta1: "View projects", cta2: "Get in touch",
+        expLabel: "EXPERIENCE", expTitle: "Where I've worked",
+        jobTitle: "Junior Developer · Audisoft",
+        jobDate: "Feb 2025 – Aug 2025 · Bogotá",
+        stat1: "employees logging hours correctly after Odoo automation",
+        stat2: "of tickets were production-critical deployments",
+        bullets: [
+          "Built and maintained web features with Python and JavaScript across the full dev cycle",
+          "Led the complete English translation of the Audisoft corporate website",
+          "Automated Odoo work-hour logging, achieving 95% consistent employee adoption",
+          "Implemented automated .bat backup solution on the company server",
+          "Managed and prioritized support tickets ranging from minor incidents to application-wide optimizations, coordinating with the development team for resolution; 70% of tickets under my management successfully advanced to the production stage.",
+        ],
+        projLabel: "PROJECTS", projTitle: "Things I've built",
+        skillLabel: "SKILLS", skillTitle: "What I work with",
+        contactLabel: "CONTACT", contactTitle: "Let's work together",
+        contactSub: "Open to junior developer roles and freelance projects.",
+        emailBtn: "Send an email",
+        projects: [
+          {
+            name: "Web Store", type: "Full Stack · Personal Project", date: "Mar 2026 – Present",
+            desc: "E-commerce platform built from scratch. Handles auth, product management, and orders end-to-end.",
+            bullets: [
+              "REST API with Node.js + Express, MVC architecture, JWT auth, bcrypt encryption",
+              "React frontend with hooks, React Router, Tailwind CSS, role-based protected routes",
+              "MySQL with full relational schema and CRUD operations",
+            ],
+          },
+          {
+            name: "The Little Knight", type: "Game Dev · Personal Project", date: "Mar 2026 – Present",
+            desc: "2D platformer in Python with custom OOP entity architecture and multi-type collision systems.",
+            bullets: [
+              "Pygame + pytmx with tilemap-based level design",
+              "Entity classes: Player, Camera, Enemy, Egg, TemporaryPlatform",
+              "Dynamic patrol AI, respawn logic, and game state management",
+            ],
+          },
+        ],
+        navLinks: ["About","Experience","Projects","Skills","Contact"],
+      },
+      es: {
+        role: "DESARROLLADOR FULL STACK · BOGOTÁ, COLOMBIA",
+        summary: "Desarrollador Full Stack Junior con experiencia real en entornos de producción — construyendo y desplegando aplicaciones web de base de datos a UI con React, Node.js, Python y MySQL.",
+        cta1: "Ver proyectos", cta2: "Contáctame",
+        expLabel: "EXPERIENCIA", expTitle: "Dónde he trabajado",
+        jobTitle: "Desarrollador Junior · Audisoft",
+        jobDate: "Feb 2025 – Ago 2025 · Bogotá",
+        stat1: "de empleados registrando horas correctamente tras automatización en Odoo",
+        stat2: "de tickets eran despliegues críticos a producción",
+        bullets: [
+          "Desarrollé y mantuve funcionalidades web con Python y JavaScript en el ciclo completo de desarrollo",
+          "Lideré la traducción completa del sitio web corporativo de Audisoft al inglés",
+          "Automaticé el registro de horas en Odoo, logrando un 95% de adopción consistente",
+          "Implementé solución de backups automatizados con archivo .bat en el servidor de la empresa",
+          "Gestioné y prioricé tickets de soporte técnico — desde incidencias puntuales hasta optimizaciones a nivel de aplicación — coordinando con el equipo de desarrollo para su resolución; el 70% de los tickets bajo mi gestión avanzaron exitosamente a etapa de producción.",
+        ],
+        projLabel: "PROYECTOS", projTitle: "Lo que he construido",
+        skillLabel: "HABILIDADES", skillTitle: "Con qué trabajo",
+        contactLabel: "CONTACTO", contactTitle: "Trabajemos juntos",
+        contactSub: "Abierto a roles junior y proyectos freelance.",
+        emailBtn: "Enviar un correo",
+        projects: [
+          {
+            name: "Tienda Web", type: "Full Stack · Proyecto Personal", date: "Mar 2026 – Presente",
+            desc: "Plataforma e-commerce construida desde cero. Maneja autenticación, productos y órdenes de principio a fin.",
+            bullets: [
+              "API REST con Node.js + Express, arquitectura MVC, auth con JWT, encriptación con bcrypt",
+              "Frontend en React con hooks, React Router, Tailwind CSS y rutas protegidas por rol",
+              "MySQL con esquema relacional completo y operaciones CRUD",
+            ],
+          },
+          {
+            name: "The Little Knight", type: "Desarrollo de Juegos · Proyecto Personal", date: "Mar 2026 – Presente",
+            desc: "Juego de plataformas 2D en Python con arquitectura de entidades OOP y sistemas de colisión multi-tipo.",
+            bullets: [
+              "Pygame + pytmx con diseño de niveles basado en tilemaps",
+              "Clases de entidades: Jugador, Cámara, Enemigo, Huevo, PlataformaTemporal",
+              "IA dinámica de patrulla, lógica de reaparición y gestión de estados del juego",
+            ],
+          },
+        ],
+        navLinks: ["Sobre mí","Experiencia","Proyectos","Habilidades","Contacto"],
+      },
+    };
+
+    const SKILLS = {
+      "Frontend": ["React", "Angular", "TypeScript", "JavaScript (ES6+)", "HTML5", "CSS3", "Tailwind CSS"],
+      "Backend": ["Node.js", "Express", "Python", "REST APIs", "JWT", "bcrypt", "MVC"],
+      "Database": ["MySQL", "Table modeling", "CRUD"],
+      "Tools": ["Git / GitHub", "VS Code", "Postman", "Odoo", "Scrum"],
+      "Other": ["Pygame", "OOP", "AI applied to dev"],
+    };
+
+    const PROJECT_META = [
+      { images: ["tienda-catalogo.png", "tienda-admin.png"], accent: "var(--accent)", tags: ["React","Node.js","Express","MySQL","JWT","Tailwind"] },
+      { images: ["thelittleknight.gif"], accent: "#c2610c", tags: ["Python","Pygame","pytmx","OOP","Game Dev"] },
+    ];
+
+    function useInView(threshold = 0.12) {
+      const ref = useRef(null);
+      const [visible, setVisible] = useState(false);
+      useEffect(() => {
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold });
+        if (ref.current) obs.observe(ref.current);
+        return () => obs.disconnect();
+      }, []);
+      return [ref, visible];
+    }
+
+    function Fade({ children, delay = 0 }) {
+      const [ref, visible] = useInView();
+      return (
+        <div ref={ref} style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(22px)",
+          transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
+        }}>{children}</div>
+      );
+    }
+
+    function Nav({ lang, setLang, dark, setDark, t }) {
+      const [scrolled, setScrolled] = useState(false);
+      useEffect(() => {
+        const fn = () => setScrolled(window.scrollY > 40);
+        window.addEventListener("scroll", fn);
+        return () => window.removeEventListener("scroll", fn);
+      }, []);
+
+      const btnStyle = {
+        fontFamily: "'DM Mono', monospace", fontSize: "11px", fontWeight: 500,
+        padding: "5px 12px", borderRadius: "6px", cursor: "pointer",
+        border: "1px solid var(--border)", background: "var(--card)",
+        color: "var(--ink2)", transition: "all 0.2s", letterSpacing: "0.04em",
+      };
+
+      return (
+        <nav style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+          padding: "0 2rem", height: "60px",
+          background: scrolled ? "var(--nav-bg)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? "1px solid var(--border)" : "none",
+          transition: "all 0.3s ease",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "13px", color: "var(--accent)", fontWeight: 500 }}>
+            TH<span style={{ color: "var(--ink3)" }}>.dev</span>
+          </span>
+          <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+            {t.navLinks.map((l, i) => {
+              const ids = ["about","experience","projects","skills","contact"];
+              return (
+                <a key={l} href={`#${ids[i]}`} style={{ fontSize: "13px", color: "var(--ink2)", transition: "color 0.2s" }}
+                  onMouseEnter={e => e.target.style.color = "var(--accent)"}
+                  onMouseLeave={e => e.target.style.color = "var(--ink2)"}
+                >{l}</a>
+              );
+            })}
+            <div style={{ display: "flex", gap: "0.5rem", marginLeft: "0.5rem" }}>
+              <button style={btnStyle} onClick={() => setLang(lang === "en" ? "es" : "en")}
+                onMouseEnter={e => { e.target.style.borderColor = "var(--accent)"; e.target.style.color = "var(--accent)"; }}
+                onMouseLeave={e => { e.target.style.borderColor = "var(--border)"; e.target.style.color = "var(--ink2)"; }}
+              >{lang === "en" ? "ES" : "EN"}</button>
+              <button style={{ ...btnStyle, fontSize: "15px", padding: "5px 10px" }}
+                onClick={() => {
+                  const newDark = !dark;
+                  setDark(newDark);
+                  document.body.className = newDark ? "dark" : "light";
+                }}
+                onMouseEnter={e => { e.target.style.borderColor = "var(--accent)"; e.target.style.color = "var(--accent)"; }}
+                onMouseLeave={e => { e.target.style.borderColor = "var(--border)"; e.target.style.color = "var(--ink2)"; }}
+              >{dark ? "☀" : "☾"}</button>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+
+    function Hero({ t }) {
+      return (
+        <section id="about" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "6rem 2rem 4rem", maxWidth: "900px", margin: "0 auto" }}>
+          <div style={{ opacity: 0, animation: "fadeUp 0.7s ease 0.1s forwards" }}>
+            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--accent)", letterSpacing: "0.1em", display: "block", marginBottom: "1.5rem" }}>{t.role}</span>
+            <h1 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "clamp(3rem,8vw,6rem)", lineHeight: 1.05, fontWeight: 400, marginBottom: "1.5rem", color: "var(--ink)" }}>
+              Tomas<br /><em style={{ color: "var(--accent)" }}>Herrera.</em>
+            </h1>
+            <p style={{ fontSize: "1.1rem", color: "var(--ink2)", maxWidth: "540px", lineHeight: 1.7, marginBottom: "2.5rem" }}>{t.summary}</p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <a href="#projects" style={{ padding: "0.7rem 1.6rem", background: "var(--accent)", color: "#fff", borderRadius: "6px", fontSize: "14px", fontWeight: 500, transition: "opacity 0.2s" }}
+                onMouseEnter={e => e.target.style.opacity="0.85"} onMouseLeave={e => e.target.style.opacity="1"}
+              >{t.cta1}</a>
+              <a href="#contact" style={{ padding: "0.7rem 1.6rem", border: "1px solid var(--border)", color: "var(--ink)", borderRadius: "6px", fontSize: "14px", background: "var(--card)", transition: "border-color 0.2s" }}
+                onMouseEnter={e => e.target.style.borderColor="var(--accent)"} onMouseLeave={e => e.target.style.borderColor="var(--border)"}
+              >{t.cta2}</a>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Experience({ t }) {
+      return (
+        <section id="experience" style={{ padding: "5rem 2rem", maxWidth: "900px", margin: "0 auto" }}>
+          <Fade>
+            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--accent)", letterSpacing: "0.1em" }}>{t.expLabel}</span>
+            <h2 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "2.2rem", fontWeight: 400, margin: "0.5rem 0 2.5rem", color: "var(--ink)" }}>{t.expTitle}</h2>
+          </Fade>
+          <Fade delay={0.1}>
+            <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "12px", padding: "2rem" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "1.25rem" }}>
+                <div style={{ width: "48px", height: "48px", borderRadius: "10px", background: "var(--accent-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                    <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+                  </svg>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: "1rem", fontWeight: 500, color: "var(--ink)" }}>{t.jobTitle}</h3>
+                  <span style={{ fontSize: "13px", color: "var(--ink3)", fontFamily: "'DM Mono',monospace" }}>{t.jobDate}</span>
+                  <div style={{ display: "flex", gap: "2rem", margin: "1.25rem 0 1rem", flexWrap: "wrap" }}>
+                    {[["95%", t.stat1], ["70%", t.stat2]].map(([stat, label]) => (
+                      <div key={stat} style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
+                        <span style={{ fontFamily: "'DM Serif Display',serif", fontSize: "1.8rem", color: "var(--accent)" }}>{stat}</span>
+                        <span style={{ fontSize: "12px", color: "var(--ink3)", maxWidth: "160px", lineHeight: 1.4 }}>{label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                    {t.bullets.map((b, i) => (
+                      <li key={i} style={{ fontSize: "14px", color: "var(--ink2)", display: "flex", gap: "0.6rem" }}>
+                        <span style={{ color: "var(--accent)", flexShrink: 0 }}>–</span>{b}
+                      </li>
+                    ))}
+                  </ul>
+                  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "1.25rem" }}>
+                    {["Python","JavaScript","Odoo","MySQL"].map(tag => (
+                      <span key={tag} style={{ fontFamily: "'DM Mono',monospace", fontSize: "11px", padding: "3px 10px", background: "var(--accent-light)", color: "var(--accent)", borderRadius: "20px", fontWeight: 500 }}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Fade>
+        </section>
+      );
+    }
+
+    function Projects({ t }) {
+      const accentColors = ["var(--accent)", "#c2610c"];
+      return (
+        <section id="projects" style={{ padding: "5rem 2rem", maxWidth: "900px", margin: "0 auto" }}>
+          <Fade>
+            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--accent)", letterSpacing: "0.1em" }}>{t.projLabel}</span>
+            <h2 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "2.2rem", fontWeight: 400, margin: "0.5rem 0 2.5rem", color: "var(--ink)" }}>{t.projTitle}</h2>
+          </Fade>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {t.projects.map((p, i) => (
+              <Fade key={p.name} delay={i * 0.1}>
+                <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "12px", overflow: "hidden", transition: "box-shadow 0.2s, transform 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,0.1)"; e.currentTarget.style.transform="translateY(-2px)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow="none"; e.currentTarget.style.transform="translateY(0)"; }}
+                >
+                  {/* Image banner */}
+                  <div style={{ position: "relative", borderBottom: "1px solid var(--border)", overflow: "hidden", background: "var(--accent-light)" }}>
+                    {PROJECT_META[i].images.length === 1 ? (
+                      <img src={PROJECT_META[i].images[0]} alt={p.name}
+                        style={{ width: "100%", display: "block", maxHeight: "320px", objectFit: "contain", objectPosition: "center", background: "#0f0f18" }}
+                      />
+                    ) : (
+                    <div style={{ display: "flex", gap: "2px", height: "200px" }}>
+                      {PROJECT_META[i].images.map((src, j) => (
+                        <img key={j} src={src} alt={p.name}
+                          style={{
+                            flex: j === 0 ? "1.6" : "1",
+                            minWidth: 0,
+                            height: "100%",
+                            objectFit: "cover",
+                            objectPosition: "top",
+                            display: "block",
+                          }}
+                        />
+                      ))}
+                    </div>
+                    )}
+                    {/* Overlay with title */}
+                    <div style={{
+                      position: "absolute", bottom: 0, left: 0, right: 0,
+                      padding: "1rem 1.5rem",
+                      background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)",
+                      display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+                    }}>
+                      <div>
+                        <h3 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "1.4rem", fontWeight: 400, color: "#fff" }}>{p.name}</h3>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "11px", color: "rgba(255,255,255,0.7)" }}>{p.type}</span>
+                      </div>
+                      <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "11px", color: "rgba(255,255,255,0.6)" }}>{p.date}</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: "1.5rem 2rem" }}>
+                    <p style={{ fontSize: "14px", color: "var(--ink2)", marginBottom: "1rem" }}>{p.desc}</p>
+                    <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4rem", marginBottom: "1.25rem" }}>
+                      {p.bullets.map((b, j) => (
+                        <li key={j} style={{ fontSize: "13px", color: "var(--ink2)", display: "flex", gap: "0.6rem" }}>
+                          <span style={{ color: accentColors[i], flexShrink: 0 }}>–</span>{b}
+                        </li>
+                      ))}
+                    </ul>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                        {PROJECT_META[i].tags.map(tag => (
+                          <span key={tag} style={{ fontFamily: "'DM Mono',monospace", fontSize: "11px", padding: "3px 10px", background: "var(--accent-light)", color: accentColors[i], borderRadius: "20px", fontWeight: 500 }}>{tag}</span>
+                        ))}
+                      </div>
+                      <a href="https://github.com/Tomas1022" target="_blank" rel="noopener"
+                        style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--ink3)", display: "flex", alignItems: "center", gap: "6px", transition: "color 0.2s" }}
+                        onMouseEnter={e => e.currentTarget.style.color="var(--accent)"}
+                        onMouseLeave={e => e.currentTarget.style.color="var(--ink3)"}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        GitHub
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </Fade>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function Skills({ t }) {
+      return (
+        <section id="skills" style={{ padding: "5rem 2rem", maxWidth: "900px", margin: "0 auto" }}>
+          <Fade>
+            <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--accent)", letterSpacing: "0.1em" }}>{t.skillLabel}</span>
+            <h2 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "2.2rem", fontWeight: 400, margin: "0.5rem 0 2.5rem", color: "var(--ink)" }}>{t.skillTitle}</h2>
+          </Fade>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "1rem" }}>
+            {Object.entries(SKILLS).map(([cat, items], i) => (
+              <Fade key={cat} delay={i * 0.07}>
+                <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "10px", padding: "1.25rem 1.5rem" }}>
+                  <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "11px", color: "var(--accent)", fontWeight: 500, letterSpacing: "0.05em", display: "block", marginBottom: "0.75rem" }}>{cat.toUpperCase()}</span>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                    {items.map(skill => (
+                      <span key={skill} style={{ fontSize: "13px", color: "var(--ink2)", padding: "4px 10px", background: "var(--bg)", borderRadius: "5px", border: "1px solid var(--border)" }}>{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </Fade>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function Contact({ t }) {
+      return (
+        <section id="contact" style={{ padding: "5rem 2rem 8rem", maxWidth: "900px", margin: "0 auto" }}>
+          <Fade>
+            <div style={{ background: "var(--accent)", borderRadius: "16px", padding: "3rem", textAlign: "center" }}>
+              <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "rgba(255,255,255,0.6)", letterSpacing: "0.1em" }}>{t.contactLabel}</span>
+              <h2 style={{ fontFamily: "'DM Serif Display',serif", fontSize: "2.2rem", fontWeight: 400, color: "#fff", margin: "0.5rem 0 1rem" }}>{t.contactTitle}</h2>
+              <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "15px", marginBottom: "2rem" }}>{t.contactSub}</p>
+              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+                <a href="mailto:herrerabenavidestomasesteban@gmail.com" style={{ padding: "0.7rem 1.6rem", background: "#fff", color: "var(--accent)", borderRadius: "6px", fontSize: "14px", fontWeight: 500, transition: "opacity 0.2s" }}
+                  onMouseEnter={e => e.target.style.opacity="0.9"} onMouseLeave={e => e.target.style.opacity="1"}
+                >{t.emailBtn}</a>
+                {[["LinkedIn","https://www.linkedin.com/in/tomas-esteban-herrera-benavides"],["GitHub","https://github.com/Tomas1022"]].map(([label, href]) => (
+                  <a key={label} href={href} target="_blank" rel="noopener"
+                    style={{ padding: "0.7rem 1.6rem", border: "1px solid rgba(255,255,255,0.4)", color: "#fff", borderRadius: "6px", fontSize: "14px", transition: "border-color 0.2s" }}
+                    onMouseEnter={e => e.target.style.borderColor="#fff"} onMouseLeave={e => e.target.style.borderColor="rgba(255,255,255,0.4)"}
+                  >{label}</a>
+                ))}
+              </div>
+            </div>
+          </Fade>
+        </section>
+      );
+    }
+
+    function Footer({ t }) {
+      return (
+        <footer style={{ borderTop: "1px solid var(--border)", padding: "1.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "900px", margin: "0 auto" }}>
+          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--ink3)" }}>© 2026 Tomas Herrera</span>
+          <span style={{ fontFamily: "'DM Mono',monospace", fontSize: "12px", color: "var(--ink3)" }}>Bogotá, Colombia</span>
+        </footer>
+      );
+    }
+
+    function App() {
+      const [lang, setLang] = useState("en");
+      const [dark, setDark] = useState(false);
+      const t = T[lang];
+      return (
+        <>
+          <Nav lang={lang} setLang={setLang} dark={dark} setDark={setDark} t={t} />
+          <Hero t={t} />
+          <Experience t={t} />
+          <Projects t={t} />
+          <Skills t={t} />
+          <Contact t={t} />
+          <Footer t={t} />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
